@@ -1,6 +1,11 @@
 package movie.controller;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import movie.dao.MovieDao;
 import movie.dto.Movie;
 import movie.service.MovieService;
 
 @Controller
-@MultipartConfig
+@MultipartConfig	
 public class MovieController {
 	
 	@Autowired
@@ -96,11 +102,24 @@ public class MovieController {
 	}
 	
 	@PostMapping("/insert-movie")
-	public String saveMovie(@ModelAttribute Movie movie, ModelMap map)
+	//public String saveMovie(@ModelAttribute Movie movie, ModelMap map)
+	public String saveMovie(Movie movie, ModelMap map)
 	{
 		return service.saveMovie(movie,map);
 	}
 	
+//	@PostMapping("/insert-movie")
+//	//public String saveMovie(@ModelAttribute Movie movie, ModelMap map)
+//	public String saveMovie(@RequestParam String name,
+//            @RequestParam String language,
+//            @RequestParam double rating,
+//            @RequestParam String genre,
+//            @RequestParam MultipartFile picture,
+//             ModelMap map)
+//	{
+//		return service.saveMovie1(name,language, rating, genre, picture,map);
+//	}
+//	
 	@PostMapping("/fetch-movies-id")
 	public String fetchMovieById(@RequestParam int id,ModelMap map) {
 		return service.fetchMovieById(id,map);
@@ -125,6 +144,24 @@ public class MovieController {
 	public String fetchMovieByGenre(@RequestParam String genre,ModelMap map) {
 		return service.fetchMovieByGenre(genre,map);
 	}
-		
+	
+	@GetMapping("/delete-movie")
+	public String delete(@RequestParam int id, ModelMap map) {
+		return service.delete(id, map);
+	}
+	
+	@GetMapping("/edit-movie")
+	public String editMovie(@RequestParam int id, ModelMap map) {
+		return "Yet to construct";
+		//return service.editMovie(id, map);
+	}	
+	
+	@PostMapping("/edit-movie")
+	@ResponseBody
+	public String updateMovie(Movie movie, ModelMap map) 
+	{
+		return movie.toString();
+	}
+	
 }
 	
